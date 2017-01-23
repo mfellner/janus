@@ -1,0 +1,28 @@
+{
+  "name": "janus",
+  "version": "0.1.0",
+  "description": "JSON document repository.",
+  "main": "dist/index.js",
+  "repository": "https://github.com/mfellner/janus.git",
+  "author": "Maximilian Fellner <max.fellner@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dist": "tsc -p .",
+    "start": "npm run dist && concurrently \"tsc -w\" \"nodemon --watch dist -e js --delay 1 bin/janus\"",
+    "typings": "typings install"
+  },
+  "devDependencies": {
+    "@types/koa": "2.0.37",
+    "@types/morgan": "1.7.32",
+    "@types/node": "7.0.3",
+    "concurrently": "3.1.0",
+    "nodemon": "1.11.0",
+    "source-map-support": "0.4.10",
+    "typescript": "2.1.5",
+    "typings": "2.1.0"
+  },
+  "dependencies": {
+    "koa": "2.0.0-alpha.7",
+    "koa-morgan": "1.0.1"
+  }
+}

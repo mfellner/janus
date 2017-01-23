@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "commonjs",
+    "target": "ES6",
+    "moduleResolution": "Node",
+    "newLine": "lf",
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "declaration": true,
+    "pretty": true,
+    "removeComments": true,
+    "lib": [
+      "ES6"
+    ]
+  },
+  "include": [
+    "src/**/*"
+   ],
+   "exclude": [
+     "dist",
+     "typings",
+     "node_modules",
+     "**/*.spec.ts"
+   ]
+}
