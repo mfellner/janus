@@ -1,12 +1,12 @@
 /// <reference path="../typings/index.d.ts" />
 
 import * as Koa from 'koa'
-import morgan = require('koa-morgan')
+import koaMorgan = require('koa-morgan')
 import 'source-map-support/register'
 
 export function init(): Koa {
   const app = new Koa()
-  app.use(morgan('dev'))
+  app.use(koaMorgan('dev'))
   return app
 }
 

@@ -12,9 +12,11 @@
     "typings": "typings install"
   },
   "devDependencies": {
+    "@types/express": "4.0.35",
     "@types/koa": "2.0.37",
     "@types/morgan": "1.7.32",
     "@types/node": "7.0.3",
+    "@types/winston": "2.2.0",
     "concurrently": "3.1.0",
     "nodemon": "1.11.0",
     "source-map-support": "0.4.10",
@@ -22,7 +24,9 @@
     "typings": "2.1.0"
   },
   "dependencies": {
-    "koa": "2.0.0-alpha.7",
-    "koa-morgan": "1.0.1"
+    "express-winston": "2.1.3",
+    "koa": "2.0.0",
+    "koa-morgan": "1.0.1",
+    "winston": "2.3.1"
   }
 }

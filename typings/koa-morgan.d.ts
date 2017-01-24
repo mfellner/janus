@@ -6,7 +6,7 @@ declare module 'koa-morgan' {
   import { Options } from 'morgan'
   import { Middleware } from 'koa'
 
-  function morgan(format: string, options?: Options): Middleware;
+  export = koaMorgan;
 
-  export = morgan;
+  function koaMorgan(format: string, options?: Options): Middleware;
 }
