@@ -15,6 +15,7 @@
     "pretty": true,
     "removeComments": true,
     "lib": [
+      "DOM",
       "ES6"
     ]
   },
@@ -26,5 +27,10 @@
      "typings",
      "node_modules",
      "**/*.spec.ts"
-   ]
+   ],
+   "formatCodeOptions": {
+    "indentSize": 2,
+    "tabSize": 2,
+    "newLineCharacter": "\n"
+  }
 }

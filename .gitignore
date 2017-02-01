@@ -93,3 +93,4 @@ jspm_packages
 # End of https://www.gitignore.io/api/osx,linux,node,typescript
 
 /dist
+/coverage

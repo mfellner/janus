@@ -3,17 +3,17 @@
 // Definitions by: mfellner <https://github.com/mfellner>
 
 declare module 'express-winston' {
-  import { Request, Response, RequestHandler } from 'express'
+  import { IncomingMessage, ServerResponse } from 'http'
   import { TransportInstance, LoggerInstance } from 'winston'
 
   export = expressWinston;
 
-  const expressWinston: ExpressWinston.ExpressWinston;
+  const expressWinston: expressWinston.ExpressWinston;
 
-  namespace ExpressWinston {
+  namespace expressWinston {
     export interface Options {
-      transports: TransportInstance[];
-      winstonInstance: LoggerInstance;
+      transports?: TransportInstance[];
+      winstonInstance?: LoggerInstance;
       level?: string;
       msg?: string;
       expressFormat?: boolean;
@@ -22,16 +22,24 @@ declare module 'express-winston' {
       baseMeta?: Object;
       metaField?: string;
       statusLevels?: boolean | Object;
-      ignoreRoute(req: Request, res: Response): boolean;
-      skip(req: Request, res: Response): boolean;
-      requestFilter<K extends keyof Request>(req: Request, propName: K): Request[K];
-      responseFilter<K extends keyof Response>(res: Response, propName: K): Response[K];
+      ignoreRoute?: (req: IncomingMessage, res: ServerResponse) => boolean;
+      skip?: (req: IncomingMessage, res: ServerResponse) => boolean;
+      requestFilter?: <K extends keyof IncomingMessage>(req: IncomingMessage, propName: K) => IncomingMessage[K];
+      responseFilter?: <K extends keyof ServerResponse>(res: ServerResponse, propName: K) => ServerResponse[K];
       requestWhitelist?: string[];
       responseWhitelist?: string[];
       bodyWhitelist?: string[];
       bodyBlacklist?: string[];
       ignoredRoutes?: string[];
-      dynamicMeta(req: Request, res: Response): Object[];
+      dynamicMeta?: (req: IncomingMessage, res: ServerResponse) => Object[];
+    }
+
+    interface NextFunction {
+        (err?: any): void;
+    }
+
+    interface RequestHandler {
+        (req: IncomingMessage, res: ServerResponse, next: NextFunction): any;
     }
 
     export interface ExpressWinston {
@@ -43,9 +51,9 @@ declare module 'express-winston' {
       bodyBlacklist: string[];
       responseWhitelist: string[];
       ignoredRoutes: string[];
-      defaultRequestFilter<K extends keyof Request>(req: Request, propName: K): Request[K];
-      defaultResponseFilter<K extends keyof Response>(res: Response, propName: K): Response[K];
-      defaultSkip(req: Request, res: Response): false;
+      defaultRequestFilter<K extends keyof IncomingMessage>(req: IncomingMessage, propName: K): IncomingMessage[K];
+      defaultResponseFilter<K extends keyof ServerResponse>(res: ServerResponse, propName: K): ServerResponse[K];
+      defaultSkip(req: IncomingMessage, res: ServerResponse): false;
     }
   }
 }
