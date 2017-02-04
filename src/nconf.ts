@@ -6,5 +6,6 @@ export default nconf
   .env()
   .file(path.join(process.cwd(), 'janus.config.json'))
   .defaults({
-    JANUS_PORT: 4001
+    JANUS_PORT: 4001,
+    JANUS_LOG_LEVEL: 'debug'
   })
