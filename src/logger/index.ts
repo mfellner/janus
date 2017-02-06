@@ -6,7 +6,7 @@ import { Middleware } from 'koa'
 
 const colorize = process.env.NODE_ENV !== 'production'
 
-export const logger: LoggerInstance = new Logger({
+export const log: LoggerInstance = new Logger({
   transports: [
     new (transports.Console)({
       colorize,
@@ -15,9 +15,9 @@ export const logger: LoggerInstance = new Logger({
   ]
 })
 
-export function middleware(options?: expressWinston.Options): Middleware {
+export function logger(options?: expressWinston.Options): Middleware {
   return createMiddleware({
-    winstonInstance: logger,
+    winstonInstance: log,
     expressFormat: true,
     meta: false,
     colorize,

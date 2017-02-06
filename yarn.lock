@@ -55,11 +55,7 @@
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/@types/nconf/-/nconf-0.0.33.tgz#725f11736f480090256c11cc1d0d5d5453c84da2"
 
-"@types/node@*":
-  version "7.0.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.4.tgz#9aabc135979ded383325749f508894c662948c8b"
-
-"@types/node@7.0.5":
+"@types/node@*", "@types/node@7.0.5":
   version "7.0.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.5.tgz#96a0f0a618b7b606f1ec547403c00650210bfbb7"
 
@@ -380,7 +376,7 @@ babel-register@^6.22.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.2"
 
-babel-runtime@^6.22.0:
+babel-runtime@^6.18.0, babel-runtime@^6.22.0:
   version "6.22.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.22.0.tgz#1cf8b4ac67c77a4ddb0db2ae1f74de52ac4ca611"
   dependencies:
@@ -2551,6 +2547,12 @@ nconf@0.8.4:
 negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
+
+neo4j-driver@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/neo4j-driver/-/neo4j-driver-1.1.0.tgz#1d8aefd9f37eae4c92a6f28ec2bcfebabdf12cf2"
+  dependencies:
+    babel-runtime "^6.18.0"
 
 nested-error-stacks@^1.0.0:
   version "1.0.2"
