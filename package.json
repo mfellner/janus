@@ -9,7 +9,7 @@
   "scripts": {
     "dist": "tsc -p .",
     "lint": "tslint --type-check --project tsconfig.json",
-    "test": "npm run lint && jest --coverage",
+    "test": "npm run lint && JANUS_LOG_LEVEL=warn jest --coverage",
     "start": "npm run dist && concurrently \"tsc -w\" \"nodemon --watch dist -e js --delay 1 bin/janus\"",
     "neo4j": "docker build -t neo4j databases/neo4j && docker run -d -p 7474:7474 -p 7687:7687 -e NEO4J_AUTH=neo4j/password --name neo4j neo4j"
   },
@@ -28,7 +28,7 @@
     "nodemon": "1.11.0",
     "source-map-support": "0.4.11",
     "supertest": "3.0.0",
-    "ts-jest": "18.0.2",
+    "ts-jest": "18.0.3",
     "tslint": "4.4.2",
     "typescript": "2.1.5",
     "typings": "2.1.0"
