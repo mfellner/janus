@@ -1,5 +1,5 @@
 export interface Repository {
-  getOne(): Promise<any>
+  getOne(id: string): Promise<any>
   getAll(): Promise<any[]>
   toString(): string
 }

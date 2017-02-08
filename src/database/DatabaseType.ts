@@ -1,5 +1,6 @@
 export enum DatabaseType {
-  NEO4J
+  NEO4J,
+  MEMORY
 }
 
 export default DatabaseType

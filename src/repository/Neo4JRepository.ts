@@ -1,19 +1,30 @@
 import Repository from './Repository'
-import { Database } from '../database'
+import { Neo4JDatabase } from '../database'
+
+const MAX_DEPTH = 100
 
 export class Neo4JRepository implements Repository {
-  database: Database
+  database: Neo4JDatabase
 
-  constructor(database: Database) {
+  constructor(database: Neo4JDatabase) {
     this.database = database
   }
 
-  getOne(): Promise<any> {
-    return this.database.run('MATCH (x) RETURN x')
+  init(): Promise<any> {
+    return this.database.run('CREATE INDEX ON :Node(uuid)')
+  }
+
+  getOne(id: string): Promise<any> {
+    return this.database.run(`MATCH (n:Node)-[includes:includes*..${MAX_DEPTH}]->(ns)
+      WHERE c.uuid = '${id}'
+      RETURN *`
+    )
   }
 
   getAll(): Promise<any[]> {
-    return this.database.run('MATCH (x) RETURN x')
+    return this.database.run(`MATCH (n:Node)-[includes:includes*..${MAX_DEPTH}]->(ns)
+      RETURN *`
+    )
   }
 
   toString() {

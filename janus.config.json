@@ -1,5 +1,5 @@
 {
-  "JANUS_DB_TYPE": "neo4j",
+  "JANUS_DB_TYPE": "memory",
   "JANUS_DB_USER": "neo4j",
   "JANUS_DB_PASS": "password",
   "JANUS_DB_HOST": "localhost"

@@ -7,6 +7,6 @@ export default (router: Router, context: ApplicationContext) => router
     ctx.body = result
   })
   .get('/contents/:id', async (ctx) => {
-    const result = await context.repository.getOne()
+    const result = await context.repository.getOne('id')
     ctx.body = result
   })

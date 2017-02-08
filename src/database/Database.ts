@@ -1,10 +1,12 @@
 import DatabaseType from './DatabaseType'
+import Neo4JDatabase from './Neo4JDatabase'
+import MemoryDatabase from './MemoryDatabase'
 
-export interface Database {
-  readonly type: DatabaseType
+export interface IDatabase<T extends DatabaseType, R> {
+  readonly type: T
 
-  run(query: string): Promise<any>
+  run(query: string): Promise<R>
   toString(): string
 }
 
-export default Database
+export type Database = Neo4JDatabase | MemoryDatabase

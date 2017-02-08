@@ -1,16 +1,16 @@
-import Database from './Database'
 import DatabaseType from './DatabaseType'
 import Options from './DatabaseOptions'
+import { IDatabase } from './Database'
 import { log } from '../logger'
 
-export abstract class AbstractDatabase implements Database {
-  readonly type: DatabaseType
+export abstract class AbstractDatabase<T extends DatabaseType, R> implements IDatabase<T, R> {
+  readonly type: T
   protected host: string
   protected user: string
   protected pass: string
   private connected: boolean
 
-  constructor(type: DatabaseType, options: Options) {
+  constructor(type: T, options: Options) {
     this.type = type
     this.host = options.host
     this.user = options.user
@@ -36,7 +36,7 @@ export abstract class AbstractDatabase implements Database {
     this.connected = false
   }
 
-  run(query: string): Promise<any> {
+  run(query: string): Promise<R> {
     if (!this.connected) {
       this.connect()
     }
@@ -44,13 +44,11 @@ export abstract class AbstractDatabase implements Database {
     return this.onRun(query)
   }
 
-  toString(): string {
-    return `${DatabaseType[this.type].toLowerCase()}://${this.user}@${this.host}`
-  }
+  abstract toString(): string
 
   protected abstract onConnect(): void
   protected abstract onDisconnect(): void
-  protected abstract onRun(query: string): Promise<any>
+  protected abstract onRun(query: string): Promise<R>
 }
 
 export default AbstractDatabase

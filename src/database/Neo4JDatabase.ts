@@ -1,9 +1,13 @@
-import neo4j, { Driver } from 'neo4j-driver'
+import neo4j, { Driver, Record } from 'neo4j-driver'
 import AbstractDatabase from './AbstractDatabase'
 import Options from './DatabaseOptions'
 import Type from './DatabaseType'
 
-export class Neo4JDatabase extends AbstractDatabase {
+export namespace Neo4JDatabase {
+  export type Result = Record[]
+}
+
+export class Neo4JDatabase extends AbstractDatabase<Type.NEO4J, Neo4JDatabase.Result> {
   private driver: Driver
 
   constructor(options: Options) {
@@ -19,11 +23,15 @@ export class Neo4JDatabase extends AbstractDatabase {
     this.driver.close()
   }
 
-  async onRun(query: string): Promise<any> {
+  async onRun(query: string): Promise<Neo4JDatabase.Result> {
     const session = this.driver.session()
     const result = await session.run(query)
     session.close()
     return result.records
+  }
+
+  toString(): string {
+    return `neo4j://${this.user}@${this.host}`
   }
 }
 
