@@ -1,7 +1,7 @@
 import Repository from './Repository'
 import { Database } from '../database'
 
-export class Neo4J implements Repository {
+export class Neo4JRepository implements Repository {
   database: Database
 
   constructor(database: Database) {
@@ -20,3 +20,5 @@ export class Neo4J implements Repository {
     return this.database.toString()
   }
 }
+
+export default Neo4JRepository

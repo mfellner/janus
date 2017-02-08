@@ -1,2 +1,2 @@
-export { Neo4J } from './Neo4J'
 export { Repository } from './Repository'
+export { Neo4JRepository } from './Neo4JRepository'

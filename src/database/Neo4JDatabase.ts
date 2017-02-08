@@ -3,7 +3,7 @@ import AbstractDatabase from './AbstractDatabase'
 import Options from './DatabaseOptions'
 import Type from './DatabaseType'
 
-export class Neo4J extends AbstractDatabase {
+export class Neo4JDatabase extends AbstractDatabase {
   private driver: Driver
 
   constructor(options: Options) {
@@ -26,3 +26,5 @@ export class Neo4J extends AbstractDatabase {
     return result.records
   }
 }
+
+export default Neo4JDatabase

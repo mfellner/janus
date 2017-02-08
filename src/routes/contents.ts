@@ -1,12 +1,12 @@
 import Router = require('koa-router')
-import { Services } from './'
+import { ApplicationContext } from '../ApplicationContext'
 
-export default (router: Router, services: Services) => router
+export default (router: Router, context: ApplicationContext) => router
   .get('/contents', async (ctx) => {
-    const result = await services.repository.getAll()
+    const result = await context.repository.getAll()
     ctx.body = result
   })
   .get('/contents/:id', async (ctx) => {
-    const result = await services.repository.getOne()
+    const result = await context.repository.getOne()
     ctx.body = result
   })

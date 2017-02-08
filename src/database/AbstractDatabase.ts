@@ -4,10 +4,10 @@ import Options from './DatabaseOptions'
 import { log } from '../logger'
 
 export abstract class AbstractDatabase implements Database {
+  readonly type: DatabaseType
   protected host: string
   protected user: string
   protected pass: string
-  private type: DatabaseType
   private connected: boolean
 
   constructor(type: DatabaseType, options: Options) {
@@ -22,21 +22,23 @@ export abstract class AbstractDatabase implements Database {
     if (this.connected) {
       throw new Error(`Already connected to ${this.toString()}`)
     }
+    log.debug('Connect to %s', this.toString())
     this.onConnect()
     this.connected = true
   }
 
   disconnect(): void {
     if (!this.connected) {
-      throw new Error(`Disconnected from ${this.toString()}`)
+      throw new Error(`Already disconnected from ${this.toString()}`)
     }
+    log.debug('Disconnect from %s', this.toString())
     this.onDisconnect()
     this.connected = false
   }
 
   run(query: string): Promise<any> {
     if (!this.connected) {
-      throw new Error(`Disconnected from ${this.toString()}`)
+      this.connect()
     }
     log.debug('Run query "%s"', query)
     return this.onRun(query)
