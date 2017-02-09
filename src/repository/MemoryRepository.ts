@@ -1,23 +1,62 @@
 import Repository from './Repository'
-import { MemoryDatabase } from '../database'
+import { Node, Edges } from '../model'
 
 export class MemoryRepository implements Repository {
-  store: {[key: string]: any}
+  private readonly nodes: { [key: string]: Node }
 
   constructor() {
-    this.store = {}
+    this.nodes = {}
   }
 
   init(): Promise<any> {
-    return Promise.reject('Init() not implemented.')
+    return Promise.resolve()
   }
 
-  async getOne(id: string): Promise<any> {
-    return this.store[id]
+  getOne(id: string): Promise<Node> {
+    if (id in this.nodes) {
+      return Promise.resolve(this.nodes[id])
+    } else {
+      return Promise.reject(new Error(`Not found: ${id}`))
+    }
   }
 
-  async getAll(): Promise<any[]> {
-    return Object.keys(this.store)
+  getMany(ids: string[]): Promise<Node[]> {
+    if (ids.length > 0) {
+      return Promise.all(ids.map(this.getOne.bind(this)))
+    } else {
+      return Promise.all(Object.keys(this.nodes).map(this.getOne.bind(this)))
+    }
+  }
+
+  getChildren(id: string): Promise<Edges> {
+    return this.getOne(id).then(node => node.children)
+  }
+
+  save(...nodes: Node[]): Promise<Node[]> {
+    return Promise.all(nodes.map(node => {
+      if (node.id in this.nodes) {
+        return Promise.reject(new Error(`Duplicate id ${node.id}`))
+      } else {
+        this.nodes[node.id] = node
+        return Promise.resolve(node)
+      }
+    }))
+  }
+
+  async saveNext(id: string, node: any): Promise<Node> {
+    const previousNode = await this.getOne(id)
+    if (previousNode.nextVersion) {
+      throw new Error(`Conflict next version ${previousNode.nextVersion}`)
+    }
+    const nextNode = new Node({
+      type: node.type,
+      previousVersion: previousNode.id,
+      data: node.data,
+      children: node.children
+    })
+    const saved = await this.save(nextNode)
+    this.nodes[id] = Object.assign(this.nodes[id], { nextVersion: nextNode.id })
+    return saved[0]
   }
 
   toString() {
@@ -25,4 +64,4 @@ export class MemoryRepository implements Repository {
   }
 }
 
-export default MemoryDatabase
+export default MemoryRepository

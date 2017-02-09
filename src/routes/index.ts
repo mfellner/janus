@@ -1,12 +1,12 @@
 import Router = require('koa-router')
 import compose = require('koa-compose')
 import health from './health'
-import contents from './contents'
+import nodes from './nodes'
 import { ApplicationContext } from '../ApplicationContext'
 
 const routes: ((r: Router, context?: ApplicationContext) => Router)[] = [
   health,
-  contents
+  nodes
 ]
 
 export default (context: ApplicationContext) => {

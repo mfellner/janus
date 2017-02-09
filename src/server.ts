@@ -1,6 +1,7 @@
 /// <reference path="../typings/index.d.ts" />
 
 import Koa = require('koa')
+import bodyParser = require('koa-bodyparser')
 import nconf from './nconf'
 import routes from './routes'
 import { log, logger } from './logger'
@@ -11,6 +12,7 @@ import 'source-map-support/register'
 export function init(context: ApplicationContext): Koa {
   const app = new Koa()
   app.use(logger())
+  app.use(bodyParser())
   app.use(routes(context))
 
   app.on('error', (err: Error) =>

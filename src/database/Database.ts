@@ -1,6 +1,5 @@
 import DatabaseType from './DatabaseType'
 import Neo4JDatabase from './Neo4JDatabase'
-import MemoryDatabase from './MemoryDatabase'
 
 export interface IDatabase<T extends DatabaseType, R> {
   readonly type: T
@@ -9,4 +8,4 @@ export interface IDatabase<T extends DatabaseType, R> {
   toString(): string
 }
 
-export type Database = Neo4JDatabase | MemoryDatabase
+export type Database = Neo4JDatabase

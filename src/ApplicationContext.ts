@@ -1,9 +1,9 @@
 import nconf from './nconf'
-import { Database, DatabaseType, Neo4JDatabase, MemoryDatabase } from './database'
+import { Database, DatabaseType, Neo4JDatabase } from './database'
 import { Repository, Neo4JRepository, MemoryRepository } from './repository'
 
 export interface ApplicationContext {
-  readonly database: Database,
+  readonly database?: Database,
   readonly repository: Repository
 }
 
@@ -17,7 +17,7 @@ export function createApplicationContext(): ApplicationContext {
   }
 }
 
-function createDatabase(): Database {
+function createDatabase(): Database | undefined {
   const config = {
     user: nconf.get('JANUS_DB_USER'),
     pass: nconf.get('JANUS_DB_PASS'),
@@ -28,18 +28,19 @@ function createDatabase(): Database {
     case 'neo4j':
       return new Neo4JDatabase(config)
     case 'memory':
-      return new MemoryDatabase()
+      return
     default:
       throw new Error(`Unknown database type ${type}`)
   }
 }
 
-function createRepository(database: Database): Repository {
+function createRepository(database?: Database): Repository {
+  if (!database) {
+    return new MemoryRepository()
+  }
   switch (database.type) {
     case DatabaseType.NEO4J:
       return new Neo4JRepository(database)
-    case DatabaseType.MEMORY:
-      return new MemoryRepository()
     default:
       throw new Error('Unsupported database type.')
   }
