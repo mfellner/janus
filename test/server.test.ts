@@ -8,12 +8,12 @@ describe('server', () => {
   let server: Server
   let request: supertest.SuperTest<supertest.Test>
 
-  beforeEach(() => {
-    server = janus.start()
+  beforeEach(async () => {
+    server = await janus.start(4001)
     request = supertest.agent(server)
   })
 
-  afterEach(() => server.close())
+  afterEach(() => server ? server.close() : null)
 
   it('returns health', async () => {
     await request.get('/health').expect('OK')

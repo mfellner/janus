@@ -1,5 +1,6 @@
 import Repository from './Repository'
 import { Node, Edges } from '../model'
+import { NotFoundError, DuplicateEntryError } from '../errors'
 
 export class MemoryRepository implements Repository {
   private readonly nodes: { [key: string]: Node }
@@ -16,7 +17,7 @@ export class MemoryRepository implements Repository {
     if (id in this.nodes) {
       return Promise.resolve(this.nodes[id])
     } else {
-      return Promise.reject(new Error(`Not found: ${id}`))
+      return Promise.reject(new NotFoundError(`Not found: ${id}`))
     }
   }
 
@@ -35,7 +36,7 @@ export class MemoryRepository implements Repository {
   save(...nodes: Node[]): Promise<Node[]> {
     return Promise.all(nodes.map(node => {
       if (node.id in this.nodes) {
-        return Promise.reject(new Error(`Duplicate id ${node.id}`))
+        return Promise.reject(new DuplicateEntryError(`Duplicate id ${node.id}`))
       } else {
         this.nodes[node.id] = node
         return Promise.resolve(node)
@@ -46,7 +47,7 @@ export class MemoryRepository implements Repository {
   async saveNext(id: string, node: any): Promise<Node> {
     const previousNode = await this.getOne(id)
     if (previousNode.nextVersion) {
-      throw new Error(`Conflict next version ${previousNode.nextVersion}`)
+      throw new DuplicateEntryError(`Existing next version ${previousNode.nextVersion}`)
     }
     const nextNode = new Node({
       type: node.type,

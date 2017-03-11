@@ -4,7 +4,7 @@
     "module": "commonjs",
     "target": "ES6",
     "moduleResolution": "Node",
-    "newLine": "lf",
+    "newLine": "LF",
     "noImplicitAny": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
@@ -15,8 +15,8 @@
     "pretty": true,
     "removeComments": true,
     "lib": [
-      "DOM",
-      "ES6"
+      "dom",
+      "es6"
     ]
   },
   "include": [

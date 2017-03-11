@@ -1,0 +1,155 @@
+swagger: "2.0"
+info:
+  title: Janus API
+  version: "0.1.0"
+paths:
+  /nodes:
+    get:
+      summary: Get a set of Nodes.
+      operationId: getNodes
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        200:
+          description: A set of Nodes.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Node"
+            uniqueItems: true
+    post:
+      summary: Create one or more new Nodes.
+      operationId: createNodes
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: node
+          required: true
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Node"
+            uniqueItems: true
+            minItems: 1
+      responses:
+        201:
+          description: Successfully created the new node(s).
+          headers:
+            Link:
+              description: A set of links to the created Nodes.
+              type: array
+              items:
+                type: string
+                format: uri
+              uniqueItems: true
+
+  /nodes/{id}:
+    get:
+      summary: Get a set of Nodes.
+      operationId: getNode
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: A single Node.
+          schema:
+            $ref: "#/definitions/Node"
+
+  /nodes/{id}/children:
+    get:
+      summary: Get a set of Nodes.
+      operationId: getNodeChildren
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+      responses:
+        200:
+          description: A single Node.
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/Edge"
+            uniqueItems: true
+
+  /nodes/{id}/next:
+    put:
+      summary: Create a new version of a Node.
+      operationId: createNodeNextVersion
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - $ref: "#/parameters/id"
+        - in: body
+          name: node
+          required: true
+          schema:
+            $ref: "#/definitions/Node"
+      responses:
+        201:
+          description: Successfully created the next version.
+          headers:
+            Link:
+              description: Link to the created resource.
+              type: string
+              format: uri
+
+parameters:
+  id:
+    name: id
+    in: path
+    description: Unique node ID.
+    type: string
+    format: uuid
+    required: true
+
+definitions:
+  Node:
+    type: object
+    properties:
+      links:
+        type: object
+        properties:
+          self:
+            $ref: "#/definitions/Link"
+          type:
+            $ref: "#/definitions/Link"
+          next_version:
+            $ref: "#/definitions/Link"
+          previous_version:
+            $ref: "#/definitions/Link"
+        required:
+          - type
+      data:
+        type: object
+      children:
+        type: array
+        items:
+          $ref: "#/definitions/Node"
+    required:
+      - links
+      - data
+  Edge:
+    type: array
+    items:
+      - type: string
+        format: uuid
+      - type: string
+        format: uuid
+    uniqueItems: true
+  Link:
+    type: string
+    format: uri
