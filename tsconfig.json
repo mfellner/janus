@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "module": "commonjs",
-    "target": "ES6",
+    "target": "es2017",
     "moduleResolution": "Node",
     "newLine": "LF",
     "noImplicitAny": true,
@@ -16,7 +16,7 @@
     "removeComments": true,
     "lib": [
       "dom",
-      "es6"
+      "es2017"
     ]
   },
   "include": [

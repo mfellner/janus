@@ -16,7 +16,7 @@ import {
 
 export type PathParamSet = { [key: string]: string }
 export type ApiPathParser = (path: string) => PathParamSet | undefined
-export type ApiContext = Context & { params: any }
+export type ApiContext = Context & { params: { [key: string]: string } }
 export type ApiMiddleware = (ctx: ApiContext, next: () => Promise<any>) => any
 export type ApiHandler = { [key: string]: ApiMiddleware }
 
@@ -79,7 +79,7 @@ function createMiddlewareFromApi(api: Spec): (handler: ApiHandler) => Middleware
     }
     // Assign path parameters to the context.
     const apictx: ApiContext = Object.assign(ctx, {
-      params: Object.assign({}, ctx['params'], { ...pathParamSet })
+      params: Object.assign({}, (<any>ctx).params, { ...pathParamSet })
     })
 
     // Validate request parameters.
